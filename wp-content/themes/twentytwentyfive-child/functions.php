@@ -1,6 +1,7 @@
 <?php
 
 require_once get_stylesheet_directory() . '/car-post-type.php';
+require_once get_stylesheet_directory() . '/inc/theme-helper.php';
 
 function cars_enqueue_assets()
 {
@@ -136,6 +137,7 @@ function register_footer_menu()
         'footer-menu' => 'Footer Menu'
     ));
 }
+
 
 add_action('add_meta_boxes', 'add_car_images_meta_box');
 add_action('wp_enqueue_scripts', 'cars_enqueue_assets');

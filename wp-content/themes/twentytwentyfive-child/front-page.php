@@ -2,17 +2,12 @@
 /* Template Name: Preloved Cars Homepage */
 get_header();
 
-$paged = get_query_var('page') ? get_query_var('page') : 1;
-$cars_query_args = [
-    'post_type' => 'car',
-    'posts_per_page' => 6,
-    'paged' => $paged,
-    'no_found_rows' => false,
-    'update_post_meta_cahe' => true,
-    'update_post_term_cache' => true,
-    'orderby' => 'post_date',
-    'order' => 'DESC',
-];
+$paged = get_query_var('page') ?: 1;
+$on_sale  = (bool) sanitize_text_field($_GET['on_sale'] ?? '0') ?: false;
+$color = sanitize_text_field($_GET['color'] ?? '') ?: null;
+
+$cars_query_args = Theme_Helper::get_cars_query_with_filters($on_sale, $color);
+dump($on_sale, $color);
 
 $cars_query = new WP_Query($cars_query_args);
 ?>
@@ -84,29 +79,56 @@ $cars_query = new WP_Query($cars_query_args);
         get_template_part('template-parts/featured-cars');
         ?>
 
-        <div class="mt-16">
-            <h2 id="available_cars" class="text-2xl font-bold text-gray-800 mb-8">Available Cars</h2>
-            <?php if ($cars_query->have_posts()) : ?>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <?php
-                    while ($cars_query->have_posts()) : $cars_query->the_post();
-                        get_template_part('template-parts/car-card');
-                        get_template_part('template-parts/car-details-modal');
-                    endwhile;
+        <div class="mt-16 mb-10">
+            <div class="flex items-center justify-between">
+                <h2 id="available_cars" class="text-2xl font-bold text-gray-800">Available Cars</h2>
 
-                    preloved_cars_pagination($cars_query);
-                    wp_reset_postdata();
-                else:
-                    ?>
-                    <div class="flex items-center justify-center">
-                        <p class="text-1xl font-bold text-gray-600">No cars available</p>
-                    </div>
-                <?php
-                endif;
-                ?>
+                <div class="flex items-center gap-4">
+                    <form action="/" method="GET" class="flex items-center gap-4">
+                        <div>
+                            <select id="color" name="color" class="bg-gray-50 border border-gray-301 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                <option value="" selected>Choose a color</option>
+                                <?php foreach (Theme_Helper::get_field_values('color') as $selection_color): ?>
+                                    <option value="<?= $selection_color ?>" <?= $selection_color === $color ? 'selected' : '' ?>><?= $selection_color ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <label class="inline-flex items-center cursor-pointer">
+                            <input type="checkbox" value="1" class="sr-only peer" name="on_sale" <?= !$on_sale ?: 'checked' ?>>
+                            <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
+                            </div>
+                            <span class="ms-3 text-sm font-medium text-gray-900">On Sale</span>
+                        </label>
+
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300">
+                            Apply
+                        </button>
+                    </form>
                 </div>
+            </div>
         </div>
+        <?php if ($cars_query->have_posts()) : ?>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <?php
+                while ($cars_query->have_posts()) : $cars_query->the_post();
+                    get_template_part('template-parts/car-card');
+                    get_template_part('template-parts/car-details-modal');
+                endwhile;
+
+                preloved_cars_pagination($cars_query);
+                wp_reset_postdata();
+            else:
+                ?>
+                <div class="flex items-center justify-center">
+                    <p class="text-1xl font-bold text-gray-600">No cars available</p>
+                </div>
+            <?php
+            endif;
+            ?>
+            </div>
     </div>
+</div>
 </div>
 
 <?php
