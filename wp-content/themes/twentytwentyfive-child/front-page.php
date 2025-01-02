@@ -73,7 +73,6 @@ $cars_query = new WP_Query($cars_query_args);
 <div class="bg-gray-100 min-h-screen py-12">
     <div class="container mx-auto px-4">
         <?php
-        // Featured Section
         get_template_part('template-parts/featured-cars');
         ?>
 

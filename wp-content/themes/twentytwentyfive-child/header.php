@@ -24,21 +24,15 @@
                 <!-- Left side: Page Title -->
                 <div class="flex-shrink-0">
                     <h1 class="cursor-pointer text-2xl font-semibold text-gray-800">
-                        <?php
-                        if (is_front_page()) {
-                            bloginfo('name');
-                        } else {
-                            wp_title('');
-                        }
-                        ?>
+                        <?= __('Preloved Cars'); ?>
                     </h1>
                 </div>
 
                 <!-- Right side: Navigation -->
                 <nav class="hidden md:flex space-x-8">
                     <a href="<?php echo home_url(); ?>" class="text-gray-600 hover:text-gray-900">Home</a>
-                    <a href="<?php echo home_url('/posts'); ?>" class="text-gray-600 hover:text-gray-900">Posts</a>
-                    <a href="<?php echo home_url('/about'); ?>" class="text-gray-600 hover:text-gray-900">About</a>
+                    <a href="#" class="text-gray-600 hover:text-gray-900">Posts</a>
+                    <a href="#" class="text-gray-600 hover:text-gray-900">About</a>
                 </nav>
 
                 <!-- Mobile menu button -->
@@ -55,8 +49,8 @@
             <div class="md:hidden hidden mobile-menu">
                 <div class="px-2 pt-2 pb-3 space-y-1">
                     <a href="<?php echo home_url(); ?>" class="block px-3 py-2 text-gray-600 hover:text-gray-900">Home</a>
-                    <a href="<?php echo home_url('/posts'); ?>" class="block px-3 py-2 text-gray-600 hover:text-gray-900">Posts</a>
-                    <a href="<?php echo home_url('/about'); ?>" class="block px-3 py-2 text-gray-600 hover:text-gray-900">About</a>
+                    <a href="#" class="block px-3 py-2 text-gray-600 hover:text-gray-900">Posts</a>
+                    <a href="#" class="block px-3 py-2 text-gray-600 hover:text-gray-900">About</a>
                 </div>
             </div>
         </div>

@@ -1,4 +1,7 @@
-<?php get_header(); ?>
+<?php
+get_header();
+$id = get_the_ID();
+?>
 
 <div class="bg-gray-100 min-h-screen py-12">
     <div class="container mx-auto px-4">
@@ -23,20 +26,20 @@
                     <div class="space-y-4 text-gray-600 mb-8">
                         <div class="flex items-center border-b pb-2">
                             <span class="font-semibold w-32">Model:</span>
-                            <span><?php echo get_post_meta(get_the_ID(), 'model', true); ?></span>
+                            <span><?= get_post_meta(get_the_ID(), 'model', true); ?></span>
                         </div>
                         <div class="flex items-center border-b pb-2">
                             <span class="font-semibold w-32">Engine Size:</span>
-                            <span><?php echo get_post_meta(get_the_ID(), 'engine_size', true); ?></span>
+                            <span><?= get_post_meta(get_the_ID(), 'engine_size', true); ?></span>
                         </div>
                         <div class="flex items-center border-b pb-2">
                             <span class="font-semibold w-32">Year:</span>
-                            <span><?php echo get_post_meta(get_the_ID(), 'year_of_manufacture', true); ?></span>
+                            <span><?= get_post_meta(get_the_ID(), 'year_of_manufacture', true); ?></span>
                         </div>
                     </div>
 
                     <div class="mb-8">
-                        <p class="text-5xl font-bold text-green-600">£<?php echo number_format(get_post_meta(get_the_ID(), 'price', true)); ?></p>
+                        <p class="text-5xl font-bold text-green-600">£<?= number_format(get_post_meta(get_the_ID(), 'price', true)); ?></p>
                     </div>
 
                     <div class="prose max-w-none">
