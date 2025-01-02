@@ -31,7 +31,7 @@ If no data is present, import the SQL dump:
 ```
 ./db_dump/wordpress.sql
 ```
-You may import this using [http://localhost:8081](PHPMyAdmin)
+You may import this using [PHPMyAdmin](http://localhost:8081)
 
 ## Requirements
 
