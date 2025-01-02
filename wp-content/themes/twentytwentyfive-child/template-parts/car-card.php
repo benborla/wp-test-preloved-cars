@@ -1,3 +1,12 @@
+<?php
+$isOnSale = (bool) get_post_meta(get_the_ID(), 'on_sale', true) ?: false;
+$isFeatured = (bool) get_post_meta(get_the_ID(), 'featured_car', true) ?: false;
+$isFeatureButNotOnSale = !$isOnSale && $isFeatured;
+$originalPrice = number_format(get_post_meta(get_the_ID(), 'original_price', true));
+$currentPrice = number_format(get_post_meta(get_the_ID(), 'price', true));
+$tagPositionOnFeature = $isFeatureButNotOnSale ? 'right-1' : 'right-16';
+
+?>
 <div class="flex flex-col justify-between car-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300">
     <div class="relative">
         <?php
@@ -6,23 +15,35 @@
         if ($car_images) {
             $image_ids = explode(',', $car_images);
             if (!empty($image_ids[0])) {
-                echo wp_get_attachment_image($image_ids[0], 'large', false, array(
+                echo wp_get_attachment_image($image_ids[0], 'large', false, [
                     'class' => $car_styling
-                ));
+                ]);
             }
         }
 
         // Featured badge
-        if (get_post_meta(get_the_ID(), 'featured_car', true)): ?>
-            <div class="featured-badge absolute top-4 left-4 px-3 py-1 rounded-full text-sm font-semibold text-white">
-                Featured
+        if ($isFeatured): ?>
+            <div class="gap-2 featured-badge absolute top-4 <?= $tagPositionOnFeature ?> px-3 py-1 rounded-full text-sm font-semibold text-white">
+                <span class="inline-flex gap-2 items-center justify-center bg-indigo-600 text-pink-800 text-md font-medium me-2 px-2.5 py-0.5 rounded text-white font-extrabold uppercase">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#F4FF00" stroke="#F4FF00" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles">
+                        <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" />
+                        <path d="M20 3v4" />
+                        <path d="M22 5h-4" />
+                        <path d="M4 17v2" />
+                        <path d="M5 18H3" />
+                    </svg>
+                    featured
+                </span>
+
             </div>
         <?php endif; ?>
 
         <?php // Sale badge
-        if (get_post_meta(get_the_ID(), 'on_sale', true)): ?>
-            <div class="sale-badge absolute top-4 right-4 px-3 py-1 rounded-full text-sm font-semibold text-white">
-                Sale
+        if ($isOnSale): ?>
+            <div class="sale-badge absolute top-4 right-1 px-3 py-1 rounded-full text-sm font-semibold text-white">
+                <span class="inline-flex bg-red-600 text-pink-800 text-md font-medium me-2 px-2.5 py-1 rounded text-white font-extrabold uppercase">
+                    sale
+                </span>
             </div>
         <?php endif; ?>
     </div>
@@ -32,26 +53,23 @@
             <?php the_title(); ?>
         </h2>
 
-        <div class="grid grid-cols-3 gap-4 mb-4 text-sm">
+        <div class="flex items-between justify-between gap-4 mb-4 text-sm">
+
+            <?php
+            $color = strtolower(get_post_meta(get_the_ID(), 'color', true));
+            $color .= $color === 'black' ? '' : '-600';
+            ?>
             <div class="flex items-center text-gray-600">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-                <span><?php echo get_post_meta(get_the_ID(), 'model', true); ?></span>
+                <div class="inline-flex items-center justify-center">
+                    <div class="h-6 w-6 bg-<?= $color ?> mr-2 rounded-full">&nbsp;
+                    </div>
+                    <span><?php echo get_post_meta(get_the_ID(), 'model', true); ?></span>
+                </div>
+
             </div>
             <div class="flex items-center text-gray-600">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-                <span><?php echo get_post_meta(get_the_ID(), 'engine_size', true); ?></span>
-            </div>
-            <div class="flex items-center text-gray-600">
-                <svg class="w-5 h-5 mr-2" xmlns=" http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette">
-                    <circle cx="13.5" cy="6.5" r=".5" fill="currentColor" />
-                    <circle cx="17.5" cy="10.5" r=".5" fill="currentColor" />
-                    <circle cx="8.5" cy="7.5" r=".5" fill="currentColor" />
-                    <circle cx="6.5" cy="12.5" r=".5" fill="currentColor" />
-                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z" />
                 </svg>
                 <span><?php echo get_post_meta(get_the_ID(), 'engine_size', true); ?></span>
             </div>

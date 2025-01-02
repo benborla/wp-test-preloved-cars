@@ -6,18 +6,19 @@ function cars_enqueue_assets()
 {
     // Tailwind
     wp_enqueue_script('tailwind', 'https://cdn.tailwindcss.com');
-    wp_enqueue_style('twentytwentyfive', get_template_directory_uri() . '/style.css');
     wp_enqueue_style('twentytwentyfive-child', get_stylesheet_uri());
+    wp_enqueue_style('twentytwentyfive', get_template_directory_uri() . '/style.css');
 
-    // Swiper
-    wp_enqueue_style('swiper', 'https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css');
-    wp_enqueue_script('swiper', 'https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js', [], null, true);
+    // Enqueue Owl Carousel CSS
+    wp_enqueue_style('owl-carousel', 'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css');
+    wp_enqueue_style('owl-theme', 'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css');
+    wp_enqueue_script('owl-carousel', 'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js', ['jquery'], null, true);
+    wp_enqueue_script('custom-carousel', get_stylesheet_directory_uri() . '/js/carousel.js', ['jquery', 'owl-carousel'], null, true);
 
-    // Custom JS
-    wp_enqueue_script('cars-js', get_stylesheet_directory_uri() . '/js/cars.js', ['swiper'], '1.0', true);
+    // Theme JS
+    wp_enqueue_script('cars-js', get_stylesheet_directory_uri() . '/js/cars.js', ['cars'], '1.0', true);
 }
 
-add_action('wp_enqueue_scripts', 'cars_enqueue_assets');
 
 function add_car_images_meta_box()
 {
@@ -30,7 +31,6 @@ function add_car_images_meta_box()
         'high',
     );
 }
-add_action('add_meta_boxes', 'add_car_images_meta_box');
 
 // Display Meta Box content
 function display_car_images_meta_box($post)
@@ -128,7 +128,6 @@ function save_car_images_meta_box($post_id)
         update_post_meta($post_id, '_car_images', sanitize_text_field($_POST['car_images']));
     }
 }
-add_action('save_post_car', 'save_car_images_meta_box');
 
 function register_footer_menu()
 {
@@ -136,4 +135,8 @@ function register_footer_menu()
         'footer-menu' => 'Footer Menu'
     ));
 }
+
+add_action('add_meta_boxes', 'add_car_images_meta_box');
+add_action('wp_enqueue_scripts', 'cars_enqueue_assets');
+add_action('save_post_car', 'save_car_images_meta_box');
 add_action('after_setup_theme', 'register_footer_menu');

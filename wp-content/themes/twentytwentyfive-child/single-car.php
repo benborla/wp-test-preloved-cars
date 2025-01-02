@@ -8,14 +8,11 @@
                 <div class="space-y-4">
                     <?php
                     $car_images = get_post_meta(get_the_ID(), '_car_images', true);
-                    if ($car_images) {
-                        $image_ids = explode(',', $car_images);
-                        foreach ($image_ids as $image_id) {
-                            echo wp_get_attachment_image($image_id, 'large', false, array(
-                                'class' => 'w-full rounded-lg shadow-md'
-                            ));
-                        }
-                    }
+                    $image_ids = explode(',', $car_images);
+                    $image = current($image_ids) ?: '53';
+                    echo wp_get_attachment_image($image, 'large', false, array(
+                        'class' => 'w-full rounded-lg shadow-md'
+                    ));
                     ?>
                 </div>
 

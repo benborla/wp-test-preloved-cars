@@ -9,34 +9,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // @INFO: For swiper
-    new Swiper('.featured-cars', {
-        // Optional parameters
-        loop: true,
-        effect: 'fade',
-        fadeEffect: {
-            crossFade: true
-        },
-        autoplay: {
-            delay: 5000,
-            disableOnInteraction: false,
-        },
-
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-
-        breakpoints: {
-            320: {
-                slidesPerView: 1,
-                spaceBetween: 20
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    silver: '#C0C0C0',
+                }
             }
         }
-    })
-  });
+    }
+});
