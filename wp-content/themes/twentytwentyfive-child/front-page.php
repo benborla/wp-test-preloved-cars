@@ -8,7 +8,7 @@ $cars_query_args = [
     'posts_per_page' => 6,
     'paged' => $paged,
     'no_found_rows' => false,
-    'update_post_meta_cache' => true,
+    'update_post_meta_cahe' => true,
     'update_post_term_cache' => true,
     'orderby' => 'post_date',
     'order' => 'DESC',
@@ -91,6 +91,7 @@ $cars_query = new WP_Query($cars_query_args);
                     <?php
                     while ($cars_query->have_posts()) : $cars_query->the_post();
                         get_template_part('template-parts/car-card');
+                        get_template_part('template-parts/car-details-modal');
                     endwhile;
 
                     preloved_cars_pagination($cars_query);

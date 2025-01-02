@@ -8,6 +8,7 @@ function cars_enqueue_assets()
     wp_enqueue_script('tailwind', 'https://cdn.tailwindcss.com');
     wp_enqueue_style('twentytwentyfive-child', get_stylesheet_uri());
     wp_enqueue_style('twentytwentyfive', get_template_directory_uri() . '/style.css');
+    wp_enqueue_script('flowbite', 'https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js', array(), null, true);
 
     // Enqueue Owl Carousel CSS
     wp_enqueue_style('owl-carousel', 'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css');
