@@ -1,11 +1,12 @@
 <?php
 
+use WP_Query;
+
 class Theme_Helper
 {
     /**
      * @return string
      */
-
     public static function version()
     {
         dump('v0.0.1');
@@ -73,6 +74,39 @@ class Theme_Helper
             'orderby' => 'post_date',
             'order' => 'DESC',
             'meta_query' => $meta_conditions
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function pagination_button_classes(): array
+    {
+        return [
+            'current' => 'flex items-center justify-center px-4 h-10 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white',
+            'prev' => 'flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white',
+            'next' => 'flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white',
+            'dots' => 'flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white',
+            'default' => 'flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+        ];
+    }
+
+    /**
+     * @var \WP_Query $query
+     * @return string[]
+     */
+    public static function pagination_links(WP_Query $query): array
+    {
+        return [
+            'base' => str_replace(999999999, '%#%', esc_url(get_pagenum_link(999999999) . '#available_cars')),
+            'format' => '?paged=%#%',
+            'current' => max(1, get_query_var('page')),
+            'total' => $query->max_num_pages,
+            'prev_text' => esc_html__('« Previous', ''),
+            'next_text' => esc_html__('Next »', ''),
+            'type' => 'array',
+            'end_size' => 2,
+            'mid_size' => 2
         ];
     }
 }

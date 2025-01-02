@@ -7,8 +7,6 @@ $on_sale  = (bool) sanitize_text_field($_GET['on_sale'] ?? '0') ?: false;
 $color = sanitize_text_field($_GET['color'] ?? '') ?: null;
 
 $cars_query_args = Theme_Helper::get_cars_query_with_filters($on_sale, $color);
-dump($on_sale, $color);
-
 $cars_query = new WP_Query($cars_query_args);
 ?>
 
@@ -31,10 +29,10 @@ $cars_query = new WP_Query($cars_query_args);
                     <div class="item bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105">
                         <?php if (has_post_thumbnail()) : ?>
                             <div class="aspect-w-16 aspect-h-9">
-                                <?php the_post_thumbnail('medium', ['class' => 'w-full h-64 object-cover']); ?>
+                                <?php the_post_thumbnail('medium', ['class' => 'w-full h-[14.3rem] object-cover']); ?>
                             </div>
                         <?php else: ?>
-                            <div class="aspect-w-16 aspect-h-5">
+                            <div class="aspect-w-16 aspect-h-9">
                                 <img width="284" height="177" src="/wp-content/uploads/2025/01/no-image.jpg" class="w-full h-[14.3rem] object-cover wp-post-image" alt="no available image" decoding="async" fetchpriority="high">
                             </div>
                         <?php endif; ?>
@@ -84,7 +82,7 @@ $cars_query = new WP_Query($cars_query_args);
                 <h2 id="available_cars" class="text-2xl font-bold text-gray-800">Available Cars</h2>
 
                 <div class="flex items-center gap-4">
-                    <form action="/" method="GET" class="flex items-center gap-4">
+                    <form action="/#available_cars" method="GET" class="flex items-center gap-4">
                         <div>
                             <select id="color" name="color" class="bg-gray-50 border border-gray-301 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                 <option value="" selected>Choose a color</option>
@@ -140,25 +138,7 @@ function preloved_cars_pagination($query)
 {
     if ($query->max_num_pages <= 1) return;
 
-    $button_classes = [
-        'current' => 'flex items-center justify-center px-4 h-10 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white',
-        'prev' => 'flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white',
-        'next' => 'flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white',
-        'dots' => 'flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white',
-        'default' => 'flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-    ];
-
-    $paginate_links = paginate_links([
-        'base' => str_replace(999999999, '%#%', esc_url(get_pagenum_link(999999999) . '#available_cars')),
-        'format' => '?paged=%#%',
-        'current' => max(1, get_query_var('page')),
-        'total' => $query->max_num_pages,
-        'prev_text' => esc_html__('« Previous', ''),
-        'next_text' => esc_html__('Next »', ''),
-        'type' => 'array',
-        'end_size' => 2,
-        'mid_size' => 2
-    ]);
+    $paginate_links = paginate_links(Theme_Helper::pagination_links($query));
 
     if (!empty($paginate_links)) : ?>
         <div class="col-span-full mt-12">
@@ -175,7 +155,7 @@ function preloved_cars_pagination($query)
 
                         echo '<li>' . str_replace(
                             ['class="page-numbers"', 'class="page-numbers current"', 'class="prev page-numbers"', 'class="next page-numbers"', 'class="page-numbers dots"'],
-                            sprintf('class="%s"', $button_classes[$class_key]),
+                            sprintf('class="%s"', Theme_Helper::pagination_button_classes()[$class_key]),
                             $link
                         ) . '</li>';
                     }
