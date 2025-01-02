@@ -33,7 +33,10 @@ $cars_query = new WP_Query($cars_query_args);
                             </div>
                         <?php else: ?>
                             <div class="aspect-w-16 aspect-h-9">
-                                <img width="284" height="177" src="/wp-content/uploads/2025/01/no-image.jpg" class="w-full h-[14.3rem] object-cover wp-post-image" alt="no available image" decoding="async" fetchpriority="high">
+                                <?= wp_get_attachment_image(Theme_Helper::no_image_placeholder(), 'large', false, array(
+                                    'class' => 'w-full h-[14.3rem] object-cover wp-post-image'
+                                ))
+                                ?>
                             </div>
                         <?php endif; ?>
 
@@ -84,7 +87,7 @@ $cars_query = new WP_Query($cars_query_args);
                     <form action="/#available_cars" method="GET" class="flex items-center gap-4">
                         <div>
                             <select id="color" name="color" class="bg-gray-50 border border-gray-301 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                <option value="" selected>Choose a color</option>
+                                <option value="" selected>Any Color</option>
                                 <?php foreach (Theme_Helper::get_field_values('color') as $selection_color): ?>
                                     <option value="<?= $selection_color ?>" <?= $selection_color === $color ? 'selected' : '' ?>><?= $selection_color ?></option>
                                 <?php endforeach; ?>

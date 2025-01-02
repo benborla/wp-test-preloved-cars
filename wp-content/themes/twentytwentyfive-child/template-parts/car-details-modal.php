@@ -1,6 +1,6 @@
 <?php
 $id = get_the_ID();
-$isOnSale = (bool) get_post_meta($id, 'on_sale', true) ?: false;
+$isOnSale = Theme_Helper::is_on_sale();
 $fixedColors = ['white', 'black'];
 $color = strtolower(get_post_meta($id, 'color', true));
 $color .= in_array($color, $fixedColors) ? '' : '-600';
@@ -65,7 +65,7 @@ $image_ids = array_filter(explode(',', $car_images));
                                 </button>
                             </div>
                         <?php else: ?>
-                            <?= wp_get_attachment_image('53', 'large', false, [
+                            <?= wp_get_attachment_image(Theme_Helper::no_image_placeholder(), 'large', false, [
                                 'class' => 'w-full rounded-lg shadow-md'
                             ]) ?>
 

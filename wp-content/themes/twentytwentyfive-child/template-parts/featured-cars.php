@@ -13,7 +13,7 @@ if ($featured_cars->have_posts()): ?>
             <?php while ($featured_cars->have_posts()): $featured_cars->the_post(); ?>
                 <div class="relative bg-white rounded-lg shadow-lg overflow-hidden">
                     <?php
-                    $car_images = get_post_meta(get_the_ID(), '_car_images', true) ?: '53';
+                    $car_images = get_post_meta(get_the_ID(), '_car_images', true) ?: Theme_Helper::no_image_placeholder();
                     if ($car_images) {
                         $image_ids = explode(',', $car_images);
                         if (!empty($image_ids[0])) {

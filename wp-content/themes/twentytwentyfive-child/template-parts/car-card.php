@@ -1,7 +1,7 @@
 <?php
-$id = $id;
-$isOnSale = (bool) get_post_meta($id, 'on_sale', true) ?: false;
-$isFeatured = (bool) get_post_meta($id, 'featured_car', true) ?: false;
+$id = get_the_ID();
+$isOnSale = Theme_Helper::is_on_sale();
+$isFeatured = Theme_Helper::is_featured();
 $isFeatureButNotOnSale = !$isOnSale && $isFeatured;
 $originalPrice = number_format(get_post_meta($id, 'original_price', true));
 $currentPrice = number_format(get_post_meta($id, 'price', true));
@@ -13,7 +13,7 @@ $color .= in_array($color, $fixedColors) ? '' : '-600';
 <div class="flex flex-col justify-between car-card bg-white dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300">
     <div class="relative">
         <?php
-        $car_images = get_post_meta($id, '_car_images', true) ?: '53';
+        $car_images = get_post_meta($id, '_car_images', true) ?: Theme_Helper::no_image_placeholder();
         $car_styling = 'w-full h-56 object-cover transform hover:scale-105 transition-transform duration-500';
         if ($car_images) {
             $image_ids = explode(',', $car_images);

@@ -12,7 +12,7 @@ $id = get_the_ID();
                     <?php
                     $car_images = get_post_meta(get_the_ID(), '_car_images', true);
                     $image_ids = explode(',', $car_images);
-                    $image = current($image_ids) ?: '53';
+                    $image = current($image_ids) ?: Theme_Helper::no_image_placeholder();
                     echo wp_get_attachment_image($image, 'large', false, array(
                         'class' => 'w-full rounded-lg shadow-md'
                     ));

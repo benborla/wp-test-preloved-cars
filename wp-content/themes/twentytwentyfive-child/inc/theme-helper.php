@@ -109,4 +109,28 @@ class Theme_Helper
             'mid_size' => 2
         ];
     }
+
+    /**
+     * @return bool
+     */
+    public static function is_on_sale(): bool
+    {
+        return (bool) get_post_meta(get_the_ID(), 'on_sale', true) ?: false;
+    }
+
+    /**
+     * @return bool
+     */
+    public static function is_featured(): bool
+    {
+        return (bool) get_post_meta(get_the_ID(), 'featured_car', true) ?: false;
+    }
+
+    /**
+     * @return int
+     */
+    public static function no_image_placeholder(): int
+    {
+        return 53;
+    }
 }
