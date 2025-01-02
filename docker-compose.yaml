@@ -25,6 +25,8 @@ services:
       MYSQL_ROOT_PASSWORD: root_wp_p@ss
     volumes:
       - db_data:/var/lib/mysql
+      - ./wordpress.sql:/docker-entrypoint-initdb.d/wordpress.sql
+      - ./check-import.sh:/docker-entrypoint-initdb.d/check-import.sh
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
