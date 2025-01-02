@@ -24,3 +24,20 @@ docker-compose up -d
 
 - Docker
 - Docker Compose
+
+## Database Import
+
+If no data is present, import the SQL dump:
+```
+./db_dump/wordpress.sql
+```
+You may import this using [http://localhost:8081](PHPMyAdmin)
+
+## Requirements
+
+- Docker
+- Docker Compose
+
+## License
+
+MIT License
