@@ -47,20 +47,24 @@ $color .= in_array($color, $fixedColors) ? '' : '-600';
                                 <span class="font-semibold w-32">Model:</span>
                                 <span><?= get_post_meta($id, 'model', true); ?></span>
                             </div>
-                            <div class="flex items-center border-b pb-2">
+                            <div class="flex items-center pb-2">
                                 <span class="font-semibold w-32">Engine Size:</span>
                                 <span><?= get_post_meta($id, 'engine_size', true); ?></span>
                             </div>
-                            <div class="flex items-center border-b pb-2">
-                                <span class="font-semibold w-32">Year:</span>
-                                <span><?= get_post_meta($id, 'year_of_manufacture', true); ?></span>
-                            </div>
-                            <div class="flex items-center border-b pb-2">
+                            <div class="flex items-center pb-2">
                                 <span class="font-semibold w-32">Color:</span>
-                                <div class="h-6 w-6 bg-<?= $color ?> mr-2 rounded-full">&nbsp;
+                                <div class="border h-6 w-6 bg-<?= $color ?> mr-2 rounded-full">&nbsp;
                                 </div>
 
                                 <span><?= get_post_meta($id, 'color', true); ?></span>
+                            </div>
+                            <div class="flex items-center pb-2">
+                                <span class="font-semibold w-32"># of Seats:</span>
+                                <span><?= get_post_meta($id, 'no_of_seats', true); ?></span>
+                            </div>
+                            <div class="flex items-center pb-2">
+                                <span class="font-semibold w-32">Year:</span>
+                                <span><?= get_post_meta($id, 'year_of_manufacture', true); ?></span>
                             </div>
 
                         </div>

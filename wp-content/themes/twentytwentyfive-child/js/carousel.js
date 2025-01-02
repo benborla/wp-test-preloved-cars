@@ -4,8 +4,8 @@ jQuery(document).ready(function($) {
         margin: 20,
         nav: true,
         dots: true,
-        autoplay: false,
-        autoplayTimeout: 5000000,
+        autoplay: true,
+        autoplayTimeout: 5000,
         autoplayHoverPause: true,
         navText: [
             '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>',

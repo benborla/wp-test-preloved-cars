@@ -1,5 +1,5 @@
 <?php
-$id = get_the_ID();
+$id = $id;
 $isOnSale = (bool) get_post_meta($id, 'on_sale', true) ?: false;
 $isFeatured = (bool) get_post_meta($id, 'featured_car', true) ?: false;
 $isFeatureButNotOnSale = !$isOnSale && $isFeatured;
@@ -7,15 +7,13 @@ $originalPrice = number_format(get_post_meta($id, 'original_price', true));
 $currentPrice = number_format(get_post_meta($id, 'price', true));
 $tagPositionOnFeature = $isFeatureButNotOnSale ? 'right-1' : 'right-16';
 $fixedColors = ['white', 'black'];
-$color = strtolower(get_post_meta(get_the_ID(), 'color', true));
+$color = strtolower(get_post_meta($id, 'color', true));
 $color .= in_array($color, $fixedColors) ? '' : '-600';
-
-
 ?>
-<div class="flex flex-col justify-between car-card bg-gray-500 dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300">
+<div class="flex flex-col justify-between car-card bg-white dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300">
     <div class="relative">
         <?php
-        $car_images = get_post_meta(get_the_ID(), '_car_images', true) ?: '53';
+        $car_images = get_post_meta($id, '_car_images', true) ?: '53';
         $car_styling = 'w-full h-56 object-cover transform hover:scale-105 transition-transform duration-500';
         if ($car_images) {
             $image_ids = explode(',', $car_images);
@@ -26,7 +24,6 @@ $color .= in_array($color, $fixedColors) ? '' : '-600';
             }
         }
 
-        // Featured badge
         if ($isFeatured): ?>
             <div class="gap-2 featured-badge absolute top-4 <?= $tagPositionOnFeature ?> px-3 py-1 rounded-full text-sm font-semibold text-white">
                 <span class="inline-flex gap-2 items-center justify-center bg-indigo-600 text-pink-800 text-md font-medium me-2 px-2.5 py-0.5 rounded text-white font-extrabold uppercase">
@@ -43,7 +40,7 @@ $color .= in_array($color, $fixedColors) ? '' : '-600';
             </div>
         <?php endif; ?>
 
-        <?php // Sale badge
+        <?php
         if ($isOnSale): ?>
             <div class="sale-badge absolute top-4 right-1 px-3 py-1 rounded-full text-sm font-semibold text-white">
                 <span class="inline-flex bg-red-600 text-pink-800 text-md font-medium me-2 px-2.5 py-1 rounded text-white font-extrabold uppercase">
@@ -60,18 +57,18 @@ $color .= in_array($color, $fixedColors) ? '' : '-600';
 
         <div class="flex items-between justify-between gap-4 mb-4 text-sm">
             <div class="flex items-center text-gray-600">
-                <div class="inline-flex items-center justify-center">
-                    <div class="h-6 w-6 bg-<?= $color ?> mr-2 rounded-full">&nbsp;
+                <div class="dark:text-white inline-flex items-center justify-center">
+                    <div class="border h-6 w-6 bg-<?= $color ?> mr-2 rounded-full">&nbsp;
                     </div>
-                    <span><?= get_post_meta(get_the_ID(), 'model', true); ?></span>
+                    <span><?= get_post_meta($id, 'model', true); ?></span>
                 </div>
 
             </div>
-            <div class="flex items-center text-gray-600">
+            <div class="flex items-center text-gray-600 dark:text-white">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
-                <span><?= get_post_meta(get_the_ID(), 'engine_size', true); ?></span>
+                <span><?= get_post_meta($id, 'engine_size', true); ?></span>
             </div>
 
         </div>
@@ -80,11 +77,11 @@ $color .= in_array($color, $fixedColors) ? '' : '-600';
             <div>
                 <?php if ($isOnSale): ?>
                     <p class="text-sm text-gray-500 line-through">
-                        £<?= number_format(get_post_meta(get_the_ID(), 'original_price', true)); ?>
+                        £<?= number_format(get_post_meta($id, 'original_price', true)); ?>
                     </p>
                 <?php endif; ?>
                 <p class="price-tag text-3xl font-bold text-green-600">
-                    £<?= number_format(get_post_meta(get_the_ID(), 'price', true)); ?>
+                    £<?= number_format(get_post_meta($id, 'price', true)); ?>
                 </p>
             </div>
             <button data-modal-target="car-details-<?= $id ?>" data-modal-toggle="car-details-<?= $id ?>" data-href="<?php the_permalink(); ?>"
