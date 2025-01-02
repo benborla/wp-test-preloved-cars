@@ -42,7 +42,7 @@ $color .= in_array($color, $fixedColors) ? '' : '-600';
 
         <?php
         if ($isOnSale): ?>
-            <div class="sale-badge absolute top-4 right-1 px-3 py-1 rounded-full text-sm font-semibold text-white">
+            <div class="absolute top-4 right-1 px-3 py-1 rounded-full text-sm font-semibold text-white">
                 <span class="inline-flex bg-red-600 text-pink-800 text-md font-medium me-2 px-2.5 py-1 rounded text-white font-extrabold uppercase">
                     <?= __('sale'); ?>
                 </span>

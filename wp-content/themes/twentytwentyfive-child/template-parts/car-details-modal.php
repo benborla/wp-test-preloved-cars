@@ -4,7 +4,8 @@ $isOnSale = (bool) get_post_meta($id, 'on_sale', true) ?: false;
 $fixedColors = ['white', 'black'];
 $color = strtolower(get_post_meta($id, 'color', true));
 $color .= in_array($color, $fixedColors) ? '' : '-600';
-
+$car_images = get_post_meta($id, '_car_images', true);
+$image_ids = array_filter(explode(',', $car_images));
 ?>
 
 <!-- Main modal -->
@@ -26,22 +27,53 @@ $color .= in_array($color, $fixedColors) ? '' : '-600';
             </div>
             <div class="p-4 md:p-5 space-y-4">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    <!-- @INFO: Image Gallery -->
-                    <div class="space-y-4">
-                        <?php
-                        $car_images = get_post_meta($id, '_car_images', true);
-                        $image_ids = explode(',', $car_images);
-                        $image = current($image_ids) ?: '53';
-                        echo wp_get_attachment_image($image, 'large', false, array(
-                            'class' => 'w-full rounded-lg shadow-md'
-                        ));
-                        ?>
+                    <div class="relative">
+                        <!-- @INFO: Image Gallery -->
+                        <div class="absolute top-1 right-1 px-3 py-1 rounded-full text-sm font-semibold text-white z-[99]">
+                            <span class="inline-flex bg-red-600 text-pink-800 text-md font-medium me-2 px-2.5 py-1 rounded text-white font-extrabold uppercase">
+                                <?= __('sale'); ?>
+                            </span>
+                        </div>
+
+                        <?php if (count($image_ids)): ?>
+                            <div id="animation-carousel" class="relative w-full" data-carousel="slide">
+                                <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+                                    <?php foreach ($image_ids as $image_id): ?>
+                                        <div class="hidden duration-200 ease-linear" data-carousel-item>
+                                            <?= wp_get_attachment_image($image_id, 'large', false, [
+                                                'class' => 'w-full rounded-lg shadow-md'
+                                            ]) ?>
+                                        </div>
+                                    <?php endforeach ?>
+                                </div>
+                                <!-- Slider controls -->
+                                <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+                                    <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                        <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
+                                        </svg>
+                                        <span class="sr-only">Previous</span>
+                                    </span>
+                                </button>
+                                <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+                                    <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                        <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                                        </svg>
+                                        <span class="sr-only">Next</span>
+                                    </span>
+                                </button>
+                            </div>
+                        <?php else: ?>
+                            <?= wp_get_attachment_image('53', 'large', false, [
+                                'class' => 'w-full rounded-lg shadow-md'
+                            ]) ?>
+
+                        <?php endif; ?>
 
                     </div>
-
                     <!-- @INFO: Car Details -->
                     <div>
-
                         <div class="text-[1rem] space-y-4 text-gray-600 dark:text-white mb-8">
                             <div class="flex items-center pb-2">
                                 <span class="font-semibold w-32">Model:</span>
