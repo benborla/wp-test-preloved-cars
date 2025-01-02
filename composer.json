@@ -1,0 +1,16 @@
+{
+  "name": "benborla/car-listing-wp",
+  "description": "A preloved car listing based on Wordpress",
+  "type": "project",
+  "require-dev": {
+    "laravel/pint": "^1.19",
+    "larapack/dd": "^1.1"
+  },
+  "license": "MIT License",
+  "authors": [
+    {
+      "name": "Ben Borla",
+      "email": "benborla@icloud.com"
+    }
+  ]
+}
